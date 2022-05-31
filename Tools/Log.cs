@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Tools
 {
-   public class Log
+   public sealed class Log
    {
       private static Log    _instance;
       private        string _path;
