@@ -14,19 +14,27 @@ namespace DesignPattern
       {
          using (var context = new DesignPatternsContext())
          {
-            var beerRepository = new BeerRepository(context);
-            var beer = new Models.Beer 
-            {
-               Name = "Cristal",
-               Style = "Blonde"
-            };
-            beerRepository.Add(beer);
+            var beerRepository = new Repostitory<Models.Beer>(context);
+            //var beer = new Models.Beer { Name = "Fuller", Style = "Strong Ale" };
+            //beerRepository.Add(beer);
+            beerRepository.Delete(5);
             beerRepository.Save();
 
             foreach (var b in beerRepository.Get())
             {
                Console.WriteLine(b.Name);
             }
+
+            var brandRepository = new Repostitory<Brand>(context);
+            var brand = new Brand { Name = "Fuller" };
+            brandRepository.Add(brand);
+            brandRepository.Save();
+
+            foreach (var b in brandRepository.Get())
+            {
+               Console.WriteLine(b.Name);
+            }
+
          }
       }
 
@@ -59,6 +67,26 @@ namespace DesignPattern
             foreach (var beer in lst)
             {
                Console.WriteLine(beer.Name);
+            }
+         }
+      }
+
+      void WorkWithContext()
+      {
+         using (var context = new DesignPatternsContext())
+         {
+            var beerRepository = new BeerRepository(context);
+            var beer = new Models.Beer
+            {
+               Name = "Cristal",
+               Style = "Blonde"
+            };
+            beerRepository.Add(beer);
+            beerRepository.Save();
+
+            foreach (var b in beerRepository.Get())
+            {
+               Console.WriteLine(b.Name);
             }
          }
       }
