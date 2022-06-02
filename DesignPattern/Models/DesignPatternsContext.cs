@@ -34,11 +34,7 @@ namespace DesignPattern.Models
 
             modelBuilder.Entity<Beer>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("Beer");
-
-                entity.Property(e => e.BeerId).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Name)
                     .IsRequired()

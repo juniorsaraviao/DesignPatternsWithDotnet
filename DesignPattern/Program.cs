@@ -1,6 +1,7 @@
 ﻿using DesignPattern.DependencyInjectionPatterm;
 using DesignPattern.FactoryPattern;
 using DesignPattern.Models;
+using DesignPattern.RepositoryPattern;
 using DesignPattern.Singleton;
 using System;
 using System.Linq;
@@ -13,10 +14,18 @@ namespace DesignPattern
       {
          using (var context = new DesignPatternsContext())
          {
-            var lst = context.Beers.ToList();
-            foreach (var beer in lst)
+            var beerRepository = new BeerRepository(context);
+            var beer = new Models.Beer 
             {
-               Console.WriteLine(beer.Name);
+               Name = "Cristal",
+               Style = "Blonde"
+            };
+            beerRepository.Add(beer);
+            beerRepository.Save();
+
+            foreach (var b in beerRepository.Get())
+            {
+               Console.WriteLine(b.Name);
             }
          }
       }
@@ -40,6 +49,18 @@ namespace DesignPattern
          var drinkWithBeer = new DrinkWithBeer(10, 1, beer);
 
          drinkWithBeer.Build();
+      }
+
+      void WorkWithEntityFramework()
+      {
+         using (var context = new DesignPatternsContext())
+         {
+            var lst = context.Beers.ToList();
+            foreach (var beer in lst)
+            {
+               Console.WriteLine(beer.Name);
+            }
+         }
       }
    }
 }
