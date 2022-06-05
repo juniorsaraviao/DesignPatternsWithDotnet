@@ -3,6 +3,7 @@ using DesignPattern.FactoryPattern;
 using DesignPattern.Models;
 using DesignPattern.RepositoryPattern;
 using DesignPattern.Singleton;
+using DesignPattern.StrategyPattern;
 using DesignPattern.UnitOfWorkPattern;
 using System;
 using System.Linq;
@@ -13,19 +14,12 @@ namespace DesignPattern
    {
       static void Main(string[] args)
       {
-         using (var context = new DesignPatternsContext())
-         {
-            var unitOfWork = new UnitOfWork(context);
-            var beers = unitOfWork.Beers;
-            var beer = new Models.Beer { Name = "Cuzqueña", Style = "Porter" };
-            beers.Add(beer);
-
-            var brands = unitOfWork.Brand;
-            var brand = new Models.Brand { Name = "Ambev" };
-            brands.Add(brand);
-
-            unitOfWork.Save();
-         }
+         var context = new Context(new CarStrategy());
+         context.Run();
+         context.Strategy = new MotocycleStrategy();
+         context.Run();
+         context.Strategy = new BicycleStrategy();
+         context.Run();
       }
 
       void PreviousSession()
@@ -106,6 +100,23 @@ namespace DesignPattern
                Console.WriteLine(b.Name);
             }
 
+         }
+
+         void WorkWithUnitOfWork()
+         {
+            using (var context = new DesignPatternsContext())
+            {
+               var unitOfWork = new UnitOfWork(context);
+               var beers = unitOfWork.Beers;
+               var beer = new Models.Beer { Name = "Cuzqueña", Style = "Porter" };
+               beers.Add(beer);
+
+               var brands = unitOfWork.Brand;
+               var brand = new Models.Brand { Name = "Ambev" };
+               brands.Add(brand);
+
+               unitOfWork.Save();
+            }
          }
       }
    }
