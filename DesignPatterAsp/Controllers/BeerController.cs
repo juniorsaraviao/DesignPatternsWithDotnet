@@ -1,4 +1,5 @@
 ﻿using DesignPatternAsp.Models.ViewModels;
+using DesignPatternAsp.Strategies;
 using DesignPatterns.Models.Data;
 using DesignPatterns.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -41,23 +42,11 @@ namespace DesignPatternAsp.Controllers
             return View("Add", beerViewModel);
          }
 
-         var beer = new Beer { Name = beerViewModel.Name, Style = beerViewModel.Style };
+         var context = beerViewModel.BrandId == null
+                       ? new BeerContext(new BeerWithBrandStrategy())
+                       : new BeerContext(new BeerStrategy());
 
-         if (beerViewModel.BrandId == null)
-         {
-            var brand = new Brand();
-            brand.Name = beerViewModel.OtherBrand;
-            brand.BrandId = Guid.NewGuid();
-            beer.BrandId = brand.BrandId;
-            _unitOfWork.Brand.Add(brand);
-         }
-         else
-         {
-            beer.BrandId = (Guid)beerViewModel.BrandId;
-         }
-
-         _unitOfWork.Beers.Add(beer);
-         _unitOfWork.Save();
+         context.Add(beerViewModel, _unitOfWork);
 
          return RedirectToAction("Index");
       }
