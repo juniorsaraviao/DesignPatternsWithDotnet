@@ -28,8 +28,7 @@ namespace DesignPatternAsp.Controllers
       [HttpGet]
       public IActionResult Add()
       {
-         var brands = _unitOfWork.Brand.Get();
-         ViewBag.Brands = new SelectList(brands, "BrandId", "Name");
+         GetBrandsData();
          return View();
       }
 
@@ -38,8 +37,7 @@ namespace DesignPatternAsp.Controllers
       {
          if (!ModelState.IsValid)
          {
-            var brands = _unitOfWork.Brand.Get();
-            ViewBag.Brands = new SelectList(brands, "BrandId", "Name");
+            GetBrandsData();
             return View("Add", beerViewModel);
          }
 
@@ -62,6 +60,12 @@ namespace DesignPatternAsp.Controllers
          _unitOfWork.Save();
 
          return RedirectToAction("Index");
+      }
+
+      void GetBrandsData()
+      {
+         var brands = _unitOfWork.Brand.Get();
+         ViewBag.Brands = new SelectList(brands, "BrandId", "Name");
       }
    }
 }
