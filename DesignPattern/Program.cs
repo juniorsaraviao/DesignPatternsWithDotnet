@@ -1,4 +1,5 @@
-﻿using DesignPattern.DependencyInjectionPatterm;
+﻿using DesignPattern.BuilderPattern;
+using DesignPattern.DependencyInjectionPatterm;
 using DesignPattern.FactoryPattern;
 using DesignPattern.Models;
 using DesignPattern.RepositoryPattern;
@@ -14,12 +15,13 @@ namespace DesignPattern
    {
       static void Main(string[] args)
       {
-         var context = new Context(new CarStrategy());
-         context.Run();
-         context.Strategy = new MotocycleStrategy();
-         context.Run();
-         context.Strategy = new BicycleStrategy();
-         context.Run();
+         var builder = new PreparedAlcoholicDrinkConcreteBuilder();
+         var barmanDirector = new BarmanDirector(builder);
+
+         barmanDirector.MakePinappleDrink();
+         
+         var preparedDrink = builder.GetPreparedDrink();
+         Console.WriteLine(preparedDrink.Result);
       }
 
       void PreviousSession()
@@ -117,6 +119,16 @@ namespace DesignPattern
 
                unitOfWork.Save();
             }
+         }
+
+         void WorkWithStrategy()
+         {
+            var context = new Context(new CarStrategy());
+            context.Run();
+            context.Strategy = new MotocycleStrategy();
+            context.Run();
+            context.Strategy = new BicycleStrategy();
+            context.Run();
          }
       }
    }
