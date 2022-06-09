@@ -5,9 +5,15 @@
       private IState _state;
       private decimal _residue;
 
+      public decimal Residue
+      {
+         set { _residue = value; }
+         get => _residue;
+      }
+
       public CustomerContext()
       {
-
+         _state = new NewState();
       }
 
       public void SetState(IState state)

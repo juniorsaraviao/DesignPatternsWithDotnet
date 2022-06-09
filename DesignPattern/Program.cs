@@ -4,6 +4,7 @@ using DesignPattern.FactoryPattern;
 using DesignPattern.Models;
 using DesignPattern.RepositoryPattern;
 using DesignPattern.Singleton;
+using DesignPattern.StatePattern;
 using DesignPattern.StrategyPattern;
 using DesignPattern.UnitOfWorkPattern;
 using System;
@@ -15,13 +16,22 @@ namespace DesignPattern
    {
       static void Main(string[] args)
       {
-         var builder = new PreparedAlcoholicDrinkConcreteBuilder();
-         var barmanDirector = new BarmanDirector(builder);
+         var customerContext = new CustomerContext();
+         Console.WriteLine(customerContext.GetState());
+         customerContext.Request(100);
+         Console.WriteLine(customerContext.GetState());
 
-         barmanDirector.MakePinappleDrink();
-         
-         var preparedDrink = builder.GetPreparedDrink();
-         Console.WriteLine(preparedDrink.Result);
+         customerContext.Request(50);
+         Console.WriteLine(customerContext.GetState());
+
+         customerContext.Request(100);
+         Console.WriteLine(customerContext.GetState());
+
+         customerContext.Request(50);
+         Console.WriteLine(customerContext.GetState());
+
+         customerContext.Request(50);
+         Console.WriteLine(customerContext.GetState());
       }
 
       void PreviousSession()
@@ -129,6 +139,17 @@ namespace DesignPattern
             context.Run();
             context.Strategy = new BicycleStrategy();
             context.Run();
+         }
+
+         void WorkWithBuider()
+         {
+            var builder = new PreparedAlcoholicDrinkConcreteBuilder();
+            var barmanDirector = new BarmanDirector(builder);
+
+            barmanDirector.MakePinappleDrink();
+
+            var preparedDrink = builder.GetPreparedDrink();
+            Console.WriteLine(preparedDrink.Result);
          }
       }
    }
