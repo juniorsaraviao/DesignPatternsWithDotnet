@@ -3,13 +3,9 @@ using DesignPatternAsp.Configuration;
 using DesignPatterns.Models.Data;
 using DesignPatterns.Repository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Tools;
 
 namespace DesignPatterAsp.Controllers
